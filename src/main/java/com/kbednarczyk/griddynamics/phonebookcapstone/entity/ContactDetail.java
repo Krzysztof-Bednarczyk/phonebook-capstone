@@ -19,6 +19,10 @@ public class ContactDetail {
     @Column(name = "group")
     private String group;
 
+    @OneToOne(mappedBy = "contactDetail", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    private Contact contact;
+
     public ContactDetail() {
     }
 
@@ -58,6 +62,14 @@ public class ContactDetail {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     @Override
