@@ -2,6 +2,10 @@ package com.kbednarczyk.griddynamics.phonebookcapstone.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 @Entity
 @Table(name = "contact")
 public class Contact {
@@ -22,6 +26,11 @@ public class Contact {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_detail_id")
     private ContactDetail contactDetail;
+
+    @OneToMany(mappedBy = "contact",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
+    private Set<PhoneNumber> phoneNumbers;
 
     public Contact() {
     }
@@ -70,6 +79,20 @@ public class Contact {
 
     public void setContactDetail(ContactDetail contactDetail) {
         this.contactDetail = contactDetail;
+    }
+
+    public Set<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    public void add(PhoneNumber phoneNumber){
+        phoneNumbers = Optional.ofNullable(phoneNumbers).orElseGet(HashSet::new);
+        phoneNumbers.add(phoneNumber);
+        phoneNumber.setContact(this);
     }
 
     @Override
