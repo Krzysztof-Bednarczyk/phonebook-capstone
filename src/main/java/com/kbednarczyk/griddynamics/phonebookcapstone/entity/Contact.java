@@ -1,14 +1,16 @@
 package com.kbednarczyk.griddynamics.phonebookcapstone.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "contact")
-public class Contact {
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+public class Contact implements Comparable<Contact> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -25,12 +27,15 @@ public class Contact {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_detail_id")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private ContactDetail contactDetail;
 
     @OneToMany(mappedBy = "contact",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
-    private Set<PhoneNumber> phoneNumbers;
+    @JsonManagedReference
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private SortedSet<PhoneNumber> phoneNumbers;
 
     public Contact() {
     }
@@ -85,12 +90,12 @@ public class Contact {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(Set<PhoneNumber> phoneNumbers) {
+    public void setPhoneNumbers(SortedSet<PhoneNumber> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
-    public void add(PhoneNumber phoneNumber){
-        phoneNumbers = Optional.ofNullable(phoneNumbers).orElseGet(HashSet::new);
+    public void add(PhoneNumber phoneNumber) {
+        phoneNumbers = Optional.ofNullable(phoneNumbers).orElseGet(TreeSet::new);
         phoneNumbers.add(phoneNumber);
         phoneNumber.setContact(this);
     }
@@ -104,5 +109,10 @@ public class Contact {
                 ", email='" + email + '\'' +
                 ", contactDetail=" + contactDetail +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Contact otherContact) {
+        return Integer.compare(getId(), otherContact.getId());
     }
 }

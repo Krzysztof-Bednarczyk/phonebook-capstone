@@ -1,10 +1,16 @@
 package com.kbednarczyk.griddynamics.phonebookcapstone.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "phone_number")
-public class PhoneNumber {
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+public class PhoneNumber implements Comparable<PhoneNumber>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -13,9 +19,10 @@ public class PhoneNumber {
     @Column(name = "number")
     private String number;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "contact_id")
+    @JsonBackReference
     private Contact contact;
 
     public PhoneNumber() {
@@ -55,5 +62,10 @@ public class PhoneNumber {
                 "id=" + id +
                 ", number='" + number + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(PhoneNumber otherPhoneNumber) {
+        return Integer.compare(getId(), otherPhoneNumber.getId());
     }
 }

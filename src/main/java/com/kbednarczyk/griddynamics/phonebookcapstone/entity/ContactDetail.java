@@ -1,5 +1,6 @@
 package com.kbednarczyk.griddynamics.phonebookcapstone.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,6 +22,7 @@ public class ContactDetail {
 
     @OneToOne(mappedBy = "contactDetail", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonIgnore
     private Contact contact;
 
     public ContactDetail() {

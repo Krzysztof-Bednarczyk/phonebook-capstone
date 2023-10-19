@@ -22,6 +22,7 @@ CREATE TABLE `contact` (
   `email` varchar(45) DEFAULT NULL,
   `contact_detail_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `CONTACT_DETAIL_UNIQUE` (`contact_detail_id`),
   KEY `FK_DETAIL_idx` (`contact_detail_id`),
   CONSTRAINT `FK_DETAIL` FOREIGN KEY (`contact_detail_id`) 
   REFERENCES `contact_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
