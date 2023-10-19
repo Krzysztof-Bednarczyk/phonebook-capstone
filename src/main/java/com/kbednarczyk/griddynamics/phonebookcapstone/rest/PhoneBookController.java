@@ -2,9 +2,11 @@ package com.kbednarczyk.griddynamics.phonebookcapstone.rest;
 
 
 import com.kbednarczyk.griddynamics.phonebookcapstone.entity.Contact;
+import com.kbednarczyk.griddynamics.phonebookcapstone.entity.PhoneNumber;
 import com.kbednarczyk.griddynamics.phonebookcapstone.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +26,10 @@ public class PhoneBookController {
     @GetMapping
     public SortedSet<Contact> getAll() {
         return contactService.findAll();
+    }
+
+    @GetMapping("/{contactName}")
+    public SortedSet<PhoneNumber> getAll(@PathVariable String contactName){
+        return contactService.findAllPhoneNumbers(contactName);
     }
 }

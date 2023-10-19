@@ -86,7 +86,7 @@ public class Contact implements Comparable<Contact> {
         this.contactDetail = contactDetail;
     }
 
-    public Set<PhoneNumber> getPhoneNumbers() {
+    public SortedSet<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
 
