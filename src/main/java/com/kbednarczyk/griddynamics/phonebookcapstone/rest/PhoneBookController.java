@@ -29,7 +29,7 @@ public class PhoneBookController {
     }
 
     @GetMapping("/{contactName}")
-    public SortedSet<PhoneNumber> getAll(@PathVariable String contactName){
+    public SortedSet<PhoneNumber> getAllByName(@PathVariable String contactName){
         return contactService.findAllPhoneNumbers(contactName);
     }
 }
