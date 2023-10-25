@@ -3,11 +3,14 @@ package com.kbednarczyk.griddynamics.phonebookcapstone.service;
 import com.kbednarczyk.griddynamics.phonebookcapstone.entity.Contact;
 import com.kbednarczyk.griddynamics.phonebookcapstone.entity.PhoneNumber;
 
-import java.util.SortedSet;
+import java.util.List;
 
 public interface ContactService {
 
-    SortedSet<Contact> findAll();
+    List<Contact> findAll();
 
-    SortedSet<PhoneNumber> findAllPhoneNumbers(String contactName);
+    Contact findByName(String contactName);
+
+    List<PhoneNumber> findAllPhoneNumbers(String contactName);
+
 }

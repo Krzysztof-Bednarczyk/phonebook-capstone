@@ -36,8 +36,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configure ->
                 configure.requestMatchers(HttpMethod.GET, "/api/v1/contacts").hasRole("EMPLOYEE")
                         .requestMatchers(HttpMethod.GET, "/api/v1/contacts/**").hasRole("EMPLOYEE")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/contacts").hasRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/contacts").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/contacts/**").hasRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/contacts/**").hasRole("MANAGER")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/contacts/**").hasRole("ADMIN")
         );
         // use HTTP Basic authentication

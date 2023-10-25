@@ -1,16 +1,21 @@
 package com.kbednarczyk.griddynamics.phonebookcapstone.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "contact")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Contact implements Comparable<Contact> {
+public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -27,6 +32,7 @@ public class Contact implements Comparable<Contact> {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_detail_id")
+    @JsonManagedReference
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ContactDetail contactDetail;
 
@@ -35,7 +41,7 @@ public class Contact implements Comparable<Contact> {
                     CascadeType.DETACH, CascadeType.REFRESH})
     @JsonManagedReference
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private SortedSet<PhoneNumber> phoneNumbers;
+    private List<PhoneNumber> phoneNumbers;
 
     public Contact() {
     }
@@ -86,16 +92,16 @@ public class Contact implements Comparable<Contact> {
         this.contactDetail = contactDetail;
     }
 
-    public SortedSet<PhoneNumber> getPhoneNumbers() {
+    public List<PhoneNumber> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(SortedSet<PhoneNumber> phoneNumbers) {
+    public void setPhoneNumbers(List<PhoneNumber> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
     public void add(PhoneNumber phoneNumber) {
-        phoneNumbers = Optional.ofNullable(phoneNumbers).orElseGet(TreeSet::new);
+        phoneNumbers = Optional.ofNullable(phoneNumbers).orElseGet(ArrayList::new);
         phoneNumbers.add(phoneNumber);
         phoneNumber.setContact(this);
     }
@@ -109,10 +115,5 @@ public class Contact implements Comparable<Contact> {
                 ", email='" + email + '\'' +
                 ", contactDetail=" + contactDetail +
                 '}';
-    }
-
-    @Override
-    public int compareTo(Contact otherContact) {
-        return Integer.compare(getId(), otherContact.getId());
     }
 }

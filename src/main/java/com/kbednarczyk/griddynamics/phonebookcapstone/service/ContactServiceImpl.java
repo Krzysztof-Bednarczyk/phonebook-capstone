@@ -7,9 +7,9 @@ import com.kbednarczyk.griddynamics.phonebookcapstone.repository.ContactReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.List;
 
 @Service
 public class ContactServiceImpl implements ContactService {
@@ -22,17 +22,22 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public SortedSet<Contact> findAll() {
-        return new TreeSet<>(contactRepository.findAllWithChildren());
+    public List<Contact> findAll() {
+        return contactRepository.findAllWithChildren();
     }
 
     @Override
-    public SortedSet<PhoneNumber> findAllPhoneNumbers(String contactName) {
+    public Contact findByName(String contactName) {
         return contactRepository.findAllWithChildren()
                 .stream()
                 .filter(contact -> contact.getLastName().equals(contactName))
                 .findFirst()
-                .orElseThrow(() -> new ContactNotFoundException(HttpStatus.NOT_FOUND, String.format("Contact: %s is not available.", contactName) ))
+                .orElseThrow(() -> new ContactNotFoundException(HttpStatus.NOT_FOUND, String.format("Contact: %s is not available.", contactName)));
+    }
+
+    @Override
+    public List<PhoneNumber> findAllPhoneNumbers(String contactName) {
+        return findByName(contactName)
                 .getPhoneNumbers();
     }
 }

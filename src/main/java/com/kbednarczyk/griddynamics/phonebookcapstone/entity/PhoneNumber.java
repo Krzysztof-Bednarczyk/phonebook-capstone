@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class PhoneNumber implements Comparable<PhoneNumber>{
+public class PhoneNumber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -62,10 +62,5 @@ public class PhoneNumber implements Comparable<PhoneNumber>{
                 "id=" + id +
                 ", number='" + number + '\'' +
                 '}';
-    }
-
-    @Override
-    public int compareTo(PhoneNumber otherPhoneNumber) {
-        return Integer.compare(getId(), otherPhoneNumber.getId());
     }
 }

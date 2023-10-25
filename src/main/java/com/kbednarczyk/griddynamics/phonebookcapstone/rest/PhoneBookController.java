@@ -5,18 +5,15 @@ import com.kbednarczyk.griddynamics.phonebookcapstone.entity.Contact;
 import com.kbednarczyk.griddynamics.phonebookcapstone.entity.PhoneNumber;
 import com.kbednarczyk.griddynamics.phonebookcapstone.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.SortedSet;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contacts")
 public class PhoneBookController {
 
-    private ContactService contactService;
+    private final ContactService contactService;
 
     @Autowired
     public PhoneBookController(ContactService contactService) {
@@ -24,12 +21,12 @@ public class PhoneBookController {
     }
 
     @GetMapping
-    public SortedSet<Contact> getAll() {
+    public List<Contact> getAll() {
         return contactService.findAll();
     }
 
     @GetMapping("/{contactName}")
-    public SortedSet<PhoneNumber> getAllByName(@PathVariable String contactName){
+    public List<PhoneNumber> getAllByName(@PathVariable String contactName){
         return contactService.findAllPhoneNumbers(contactName);
     }
 }
