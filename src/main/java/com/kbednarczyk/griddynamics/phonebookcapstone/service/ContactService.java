@@ -16,4 +16,6 @@ public interface ContactService {
     void updatePhoneNumbers(String contactName, PhoneNumber phoneNumber);
 
     void addContact(Contact contact);
+
+    void deleteContact(String contactName);
 }

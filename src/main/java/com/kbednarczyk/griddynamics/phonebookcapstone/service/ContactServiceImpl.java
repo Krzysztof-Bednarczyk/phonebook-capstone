@@ -4,6 +4,7 @@ import com.kbednarczyk.griddynamics.phonebookcapstone.entity.Contact;
 import com.kbednarczyk.griddynamics.phonebookcapstone.entity.PhoneNumber;
 import com.kbednarczyk.griddynamics.phonebookcapstone.exceptionhandling.model.ContactNotFoundException;
 import com.kbednarczyk.griddynamics.phonebookcapstone.repository.ContactRepository;
+import com.kbednarczyk.griddynamics.phonebookcapstone.repository.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ import java.util.List;
 public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
+    private final PhoneNumberRepository phoneNumberRepository;
 
     @Autowired
-    public ContactServiceImpl(ContactRepository contactRepository) {
+    public ContactServiceImpl(ContactRepository contactRepository, PhoneNumberRepository phoneNumberRepository) {
         this.contactRepository = contactRepository;
+        this.phoneNumberRepository = phoneNumberRepository;
     }
 
     @Override
@@ -49,5 +52,14 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public void addContact(Contact contact) {
         contactRepository.save(contact);
+    }
+
+    @Override
+    public void deleteContact(String contactName) {
+        Contact contact = findByName(contactName);
+        List<PhoneNumber> phones = contact.getPhoneNumbers();
+        System.out.println(phones);
+        phones.forEach(phoneNumber -> phoneNumberRepository.deleteById(phoneNumber.getId()));
+        contactRepository.deleteByContactName(contactName);
     }
 }

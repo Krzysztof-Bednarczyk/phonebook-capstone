@@ -35,8 +35,7 @@ public class Contact {
     private ContactDetail contactDetail;
 
     @OneToMany(mappedBy = "contact",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<PhoneNumber> phoneNumbers;

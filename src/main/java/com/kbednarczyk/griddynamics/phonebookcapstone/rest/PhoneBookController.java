@@ -41,4 +41,10 @@ public class PhoneBookController {
     public void addContact(@RequestBody Contact contact){
         contactService.addContact(contact);
     }
+
+    @DeleteMapping("/{contactName}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteContact(@PathVariable String contactName){
+        contactService.deleteContact(contactName);
+    }
 }
