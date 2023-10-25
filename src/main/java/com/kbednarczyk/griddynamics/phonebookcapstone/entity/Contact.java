@@ -1,9 +1,6 @@
 package com.kbednarczyk.griddynamics.phonebookcapstone.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -34,6 +31,7 @@ public class Contact {
     @JoinColumn(name = "contact_detail_id")
     @JsonManagedReference
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("contactDetail")
     private ContactDetail contactDetail;
 
     @OneToMany(mappedBy = "contact",
@@ -46,10 +44,13 @@ public class Contact {
     public Contact() {
     }
 
-    public Contact(String firstName, String lastName, String email) {
+    public Contact(Integer id, String firstName, String lastName, String email, ContactDetail contactDetail, List<PhoneNumber> phoneNumbers) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.contactDetail = contactDetail;
+        this.phoneNumbers = phoneNumbers;
     }
 
     public Integer getId() {
@@ -114,6 +115,7 @@ public class Contact {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", contactDetail=" + contactDetail +
+                ", phoneNumbers=" + phoneNumbers +
                 '}';
     }
 }

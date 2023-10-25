@@ -35,4 +35,10 @@ public class PhoneBookController {
     public void updateContactsPhoneNumbers(@PathVariable String contactName, @RequestBody List<PhoneNumber> phoneNumbers){
         phoneNumbers.forEach(phoneNumber -> contactService.updatePhoneNumbers(contactName, phoneNumber));
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addContact(@RequestBody Contact contact){
+        contactService.addContact(contact);
+    }
 }

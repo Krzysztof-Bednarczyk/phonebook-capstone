@@ -17,8 +17,8 @@ public class ContactDetail {
     @Column(name = "hobby")
     private String hobby;
 
-    @Column(name = "group")
-    private String group;
+    @Column(name = "category")
+    private String category;
 
     @OneToOne(mappedBy = "contactDetail", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
@@ -28,10 +28,10 @@ public class ContactDetail {
     public ContactDetail() {
     }
 
-    public ContactDetail(String occupation, String hobby, String group) {
+    public ContactDetail(String occupation, String hobby, String category) {
         this.occupation = occupation;
         this.hobby = hobby;
-        this.group = group;
+        this.category = category;
     }
 
     public Integer getId() {
@@ -58,12 +58,12 @@ public class ContactDetail {
         this.hobby = hobby;
     }
 
-    public String getGroup() {
-        return group;
+    public String getCategory() {
+        return category;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Contact getContact() {
@@ -80,7 +80,7 @@ public class ContactDetail {
                 "id=" + id +
                 ", occupation='" + occupation + '\'' +
                 ", hobby='" + hobby + '\'' +
-                ", group='" + group + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

@@ -8,7 +8,7 @@ CREATE TABLE `contact_detail` (
   `id` int NOT NULL AUTO_INCREMENT,
   `occupation` varchar(128) DEFAULT NULL,
   `hobby` varchar(45) DEFAULT NULL,
-  `group` varchar(45) DEFAULT NULL,
+  `category` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

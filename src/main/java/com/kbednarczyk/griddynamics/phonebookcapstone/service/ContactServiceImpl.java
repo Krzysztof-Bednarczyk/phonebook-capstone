@@ -45,4 +45,9 @@ public class ContactServiceImpl implements ContactService {
         contactToUpdate.add(phoneNumber);
         contactRepository.save(contactToUpdate);
     }
+
+    @Override
+    public void addContact(Contact contact) {
+        contactRepository.save(contact);
+    }
 }
