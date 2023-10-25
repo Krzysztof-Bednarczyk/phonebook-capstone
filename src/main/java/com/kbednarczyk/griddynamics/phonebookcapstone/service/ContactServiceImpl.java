@@ -7,7 +7,6 @@ import com.kbednarczyk.griddynamics.phonebookcapstone.repository.ContactReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,5 +38,11 @@ public class ContactServiceImpl implements ContactService {
     public List<PhoneNumber> findAllPhoneNumbers(String contactName) {
         return findByName(contactName)
                 .getPhoneNumbers();
+    }
+    @Override
+    public void updatePhoneNumbers(String contactName, PhoneNumber phoneNumber) {
+        Contact contactToUpdate = findByName(contactName);
+        contactToUpdate.add(phoneNumber);
+        contactRepository.save(contactToUpdate);
     }
 }

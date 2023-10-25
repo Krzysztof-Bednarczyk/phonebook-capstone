@@ -13,4 +13,5 @@ public interface ContactService {
 
     List<PhoneNumber> findAllPhoneNumbers(String contactName);
 
+    void updatePhoneNumbers(String contactName, PhoneNumber phoneNumber);
 }
