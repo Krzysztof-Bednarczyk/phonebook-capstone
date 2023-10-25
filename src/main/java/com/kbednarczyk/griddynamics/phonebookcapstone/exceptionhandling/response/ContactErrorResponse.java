@@ -1,12 +1,14 @@
 package com.kbednarczyk.griddynamics.phonebookcapstone.exceptionhandling.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 
 public class ContactErrorResponse {
 
     private int status;
     private String message;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String reason;
     private LocalDateTime timeStamp;
 
