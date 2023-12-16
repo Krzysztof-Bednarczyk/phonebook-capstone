@@ -1,0 +1,23 @@
+version: "3"
+services:
+  phonebook-mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    container_name: 'phonebook-mysql'
+    hostname: 'phonebook-mysql'
+    ports:
+      - '3306:3306'
+    # Set mysql environments
+    environment:
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_USER: 'springstudent'
+      MYSQL_PASSWORD: 'springstudent'
+      MYSQL_DATABASE: 'phonebook_directory'
+    volumes:
+      - phonebook-mysql-data:/var/lib/mysql
+      - ./sql-scripts/01-setup-spring-security-demo-database-bcrypt-custom-table-names.sql:/docker-entrypoint-initdb.d/01-setup-spring-security-demo-database-bcrypt-custom-table-names.sql
+      - ./sql-scripts/02-setup-phonebook-table-names.sql:/docker-entrypoint-initdb.d/02-setup-phonebook-table-names.sql
+
+volumes:
+  phonebook-mysql-data:
+
